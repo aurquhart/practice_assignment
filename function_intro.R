@@ -119,3 +119,31 @@ median(dat$Weight, na.rm=TRUE) # deal with nas
 dat_30 <- dat[which(dat[, "Day"] == 30),]
 dat_30
 median(dat_30$Weight)
+
+#now create a more dynamic function
+#where user can select home directory and day to find median
+#like this
+#weightmedian <- function(directory, day) { # content of the function }
+
+
+weightmedian <- function(directory, day) {
+  files_list <- list.files(directory, full.names=TRUE) #creates a list of files
+  dat <- data.frame() #creates an empty data frame
+  for (i in 1:5) { #loops through the files, rbinding them together
+    dat <- rbind(dat, read.csv(files_list[i]))
+  }
+  dat_subset <- dat[which(dat[, "Day"] == day),] #subsets the rows that match the 'day' argument
+  median(dat_subset[, "Weight"], na.rm=TRUE) #identifies the median weight
+  #while stripping out the NAs
+}
+
+
+#now test
+
+weightmedian(directory = "diet_data", day = 20)
+
+#getwd()
+#list.files()
+
+
+
